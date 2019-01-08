@@ -7,18 +7,21 @@
         @click-right="onClickRight"
         />
         <!-- 中间路由区域 -->
+        <!-- <transition> -->
+            <router-view></router-view>
+        <!-- </transition> -->
 
         <!-- 底部 Tabbar 区域 -->
         <van-tabbar v-model="active">
-            <van-tabbar-item info="3">
+            <van-tabbar-item to="/">
                 <span>主页</span>
                 <img
                 slot="icon"
-                slot-scope="props"
+                slot-scope="props"            
                 :src="props.active ? icon.home_active : icon.home"
                 >
             </van-tabbar-item>
-            <van-tabbar-item>
+            <van-tabbar-item to="/member">
                 <span>会员</span>
                 <img
                 slot="icon"
@@ -26,15 +29,15 @@
                 :src="props.active ? icon.vip_active : icon.vip"
                 >
             </van-tabbar-item>
-            <van-tabbar-item>
+            <van-tabbar-item info="0" to="/shopcar">
                 <span>购物车</span>
-                <img
+                <img              
                 slot="icon"
                 slot-scope="props"
                 :src="props.active ? icon.shop_active : icon.shop"
                 >
             </van-tabbar-item>
-            <van-tabbar-item>
+            <van-tabbar-item to="/search">
                 <span>搜索</span>
                 <img
                 slot="icon"
@@ -81,6 +84,8 @@ export default {
 }
 .app-container {
     padding-top: 46px;
+    padding-bottom: 50px;
+    overflow-x: hidden;
 }
 .van-nav-bar {
     background-color: #FF6B01;
@@ -89,6 +94,24 @@ export default {
     position: fixed;
     top: 0;
     width: 100%;
+}
+.van-tabbar-item--active {
+    color: #FF6B01;
+}
+
+.v-enter {
+    opacity: 0;
+    transform: translateX(100%);
+    // position: absolute;
+}
+.v-leave-to {
+    opacity: 0;
+    transform: translateX(-100%);
+    position: absolute;
+}
+.v-enter-active,
+.v-enter-active {
+    transition:                                                                                                                                                                                                                                                                                                                                                                                                          all ease .5s;
 }
 </style>
 
