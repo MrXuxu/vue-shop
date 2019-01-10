@@ -1,13 +1,6 @@
 <template>
     <div class="HomeContainer">
-        <van-swipe :autoplay="3000" indicator-color="white">
-            <van-swipe-item
-             v-for="(item, index) in lunbotuList"
-             :key="index"
-            >
-            <img :src="item.imgUrl" alt="">
-            </van-swipe-item>
-        </van-swipe>
+        <div @click="imgPreview"><v-lunbo :lunbotuList="lunbotuList"></v-lunbo></div>
         <div class="icons">
             <router-link to="/home/newslist" tag="div">
                 <div class="icon">
@@ -21,10 +14,13 @@
                     <p>图片分享</p>
                 </div>
             </router-link>
-            <div class="icon">
-                <img src="../../images/menu3.png" alt="">
-                <p>商品购买</p>
-            </div>
+            <router-link to="/home/goodslist" tag="div">
+                <div class="icon">
+                    <img src="../../images/menu3.png" alt="">
+                    <p>商品购买</p>
+                </div>
+            </router-link>
+            
             <div class="icon">
                 <img src="../../images/menu4.png" alt="">
                 <p>留言反馈</p>
@@ -42,12 +38,15 @@
 </template>
 <script>
 import Vue from 'vue';
-import { Toast } from 'vant';
+import vLunbo from '../subcomponents/swipe.vue'
+import { Toast, ImagePreview } from 'vant';
+
 Vue.use(Toast);
 export default {
     data() {
         return {
-            lunbotuList: [] //保存轮播图的数组
+            lunbotuList: [], //保存轮播图的数组
+            imgpreview: []
         }
     },
     created() {
@@ -61,21 +60,23 @@ export default {
                     // Toast('加载完成');
                     // this.lunbotuList = res.body.message;
                 this.lunbotuList = res.data.swipers;
+                res.data.swipers.forEach(ele => {
+                    this.imgpreview.push(ele.imgUrl);
+                })
                 
             })
+        },
+        imgPreview() {
+            ImagePreview(this.imgpreview);
         }
+    },
+    components: {
+        vLunbo,
     }
 }
 </script>
 <style lang="scss" scoped>
-.van-swipe-item {
-    height: 200px !important;
-    // background-color: cadetblue;
-    img {
-        width: 100%;
-        height: 100%;
-    }
-}
+
 .icons {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

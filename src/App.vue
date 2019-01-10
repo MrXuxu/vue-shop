@@ -87,6 +87,10 @@ export default {
     padding-bottom: 50px;
     overflow-x: hidden;
 }
+.van-swipe {
+    // overflow: hidden;
+    // height: 200px;
+}
 .van-nav-bar {
     background-color: #FF6B01;
     color: #fff;
