@@ -24,6 +24,10 @@ export default {
             this.$emit('add');
         },
         reduce() {
+            if(this.nums <= 1) {
+                Toast('商品数量最少为1')
+                return;
+            }
             this.$emit('reduce');
         }
     },
