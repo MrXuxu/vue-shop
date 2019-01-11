@@ -13,7 +13,7 @@
             <p class="price">
                 市场价：<del>￥{{ goodsinfo.market_price }}</del>&nbsp;&nbsp;<span class="now_price">￥{{ goodsinfo.sell_price }}</span>
             </p>
-            <p>购买数量：<numbox @getcount="getSelectedCount"></numbox></p>
+            <p>购买数量：<numbox @getcount="getSelectedCount" :max="goodsinfo.stock_quantity"></numbox></p>
             <p class="buy">
                 <van-button type="danger" size="small">立即购买</van-button>
                 <van-button type="primary" size="small" @click="addToShopCar">加入购物车</van-button>
@@ -84,8 +84,16 @@ export default {
             this.$router.push({name: 'goodscomment', params: { id }});
         },
         addToShopCar() {
-            console.log(this.ballFlag);
+            // console.log(this.ballFlag);
             this.ballFlag = !this.ballFlag;
+            var goodsinfo = {
+                id: this.id,
+                count: this.selectedCount,
+                price: this.goodsinfo.sell_price,
+                selected: true
+            }
+            // 调用 addToCar 方法, 传递数据, goodsinfo
+            this.$store.commit('addToCar', goodsinfo);
         },
         // 动画钩子函数
         beforeEnter(el) {
@@ -121,6 +129,7 @@ export default {
         getSelectedCount(count) {
             // 当子组件把选中的数量传递给父组件的时候，把选中的值保存到 data 上
             this.selectedCount = count;
+            // console.log(this.selectedCount);
         }
     },
     components: {

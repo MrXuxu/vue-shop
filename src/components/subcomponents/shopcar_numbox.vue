@@ -1,14 +1,19 @@
 <template>
     <div class="numbox">
         <input type="button" name="" id="" value="-" @click="reduce">
-        <input type="number" value="1" ref="numbox" v-model="num">
+        <input type="number" class="number" value="1" ref="numbox" v-model="nums" readonly>
         <input type="button" name="" id="" value="+" @click="add" >
     </div>
 </template>
 <script>
 import { Toast } from 'vant'
 export default {
-    props: ['max'],
+    props: {
+        nums: {
+            type: [Number, String],
+            default: 1
+        }
+    },
     data() {
         return {
             num: 1,
@@ -16,26 +21,15 @@ export default {
     },
     methods: {
         add() {
-            this.num++;
+            this.$emit('add');
         },
         reduce() {
-            this.num--;
+            this.$emit('reduce');
         }
     },
     watch: {
-        num(newVal, oldVal) {
-            // console.log(newVal);
-            if(newVal > this.max) {
-                Toast('数量超出最大了')
-                this.num = this.max;
-            }
-            if(newVal === NaN) {
-                this.num = 1
-            }else if(newVal <=0 ) {
-                this.num = 1;
-                Toast('数量不能小于0');
-            }
-            this.$emit('getcount', parseInt(newVal));
+        nums(newVal, oldVal) {
+            console.log(newVal);
         }
     }
 }
@@ -55,7 +49,7 @@ input {
 }
 input[type="number"] {
     text-align: center;
-    transform: translateY(-1px);
+    // transform: translateY(-1px);
 }
 </style>
 

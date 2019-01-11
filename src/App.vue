@@ -3,6 +3,7 @@
         <!-- 顶部 Header 区域 -->
         <van-nav-bar
         title="vue2.0-商城"
+        :left-arrow="isHome"
         @click-left="onClickLeft"
         @click-right="onClickRight"
         />
@@ -29,7 +30,7 @@
                 :src="props.active ? icon.vip_active : icon.vip"
                 >
             </van-tabbar-item>
-            <van-tabbar-item info="0" to="/shopcar">
+            <van-tabbar-item :info="$store.getters.getAllCount" to="/shopcar">
                 <span>购物车</span>
                 <img              
                 slot="icon"
@@ -63,15 +64,29 @@ export default {
                 shop_active: '/src/lib/iconfont/tabbar/shop-active.png',
                 search: '/src/lib/iconfont/tabbar/search.png',
                 search_active: '/src/lib/iconfont/tabbar/search-active.png'
-            }
+            },
+            isHome: false,
         }
+    },
+    created() {
+        console.log(this.$route.path);
     },
     methods: {
         onClickLeft() {
-
+            this.$router.go(-1);
         },
         onClickRight() {
 
+        }
+    },
+    watch: {
+        '$route.path': function(newVal) {
+            if(newVal === '/') {
+                this.isHome = false;
+                console.log(newVal);
+            }else if (newVal != '/') {
+                this.isHome = true;
+            }
         }
     }
 }
@@ -86,6 +101,9 @@ export default {
     padding-top: 46px;
     padding-bottom: 50px;
     overflow-x: hidden;
+}
+.van-icon-arrow-left::before {
+    color: #fff;
 }
 .van-swipe {
     // overflow: hidden;
